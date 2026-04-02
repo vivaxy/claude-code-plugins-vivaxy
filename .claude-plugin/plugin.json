@@ -1,0 +1,20 @@
+{
+  "name": "gdd",
+  "description": "Graph Driven Development: enforce development process consistency through flowcharts and architecture diagrams",
+  "version": "1.0.0",
+  "author": {
+    "name": "GDD Contributors"
+  },
+  "homepage": "https://github.com/your-org/gdd-plugin",
+  "repository": "https://github.com/your-org/gdd-plugin",
+  "license": "MIT",
+  "keywords": [
+    "graph",
+    "diagram",
+    "architecture",
+    "workflow",
+    "process",
+    "mermaid",
+    "design-first"
+  ]
+}
