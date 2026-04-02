@@ -1,5 +1,5 @@
 ---
-name: init
+name: gdd:init
 description: Initialize GDD for this project — scan codebase and generate flowcharts and architecture diagrams in docs/gdd/
 argument-hint: "[--force]"
 allowed-tools:

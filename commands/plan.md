@@ -1,5 +1,5 @@
 ---
-name: plan
+name: gdd:plan
 description: Plan a new requirement — update flowcharts and architecture diagrams to reflect the proposed changes, generating a draft for user approval
 argument-hint: "<requirement description>"
 allowed-tools:

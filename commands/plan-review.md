@@ -1,5 +1,5 @@
 ---
-name: plan-review
+name: gdd:plan-review
 description: Review GDD diagrams for completeness, consistency, and feasibility — catch design gaps before coding begins
 argument-hint: "[<target>]"
 allowed-tools:
