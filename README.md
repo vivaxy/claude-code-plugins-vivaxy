@@ -22,13 +22,22 @@ GDD addresses this by:
 
 ### Via Claude Code Plugin Marketplace
 
-If this plugin is registered in a marketplace:
+Clone the repository to a local directory, then add the marketplace using a relative path:
 
 ```bash
-# Register the marketplace (first time only)
-/plugin marketplace add <your-org>/gdd-marketplace
+# Clone the repository
+git clone https://github.com/vivaxy/claude-code-plugin-graph-driven-development ~/claude-code-plugin-graph-driven-development
+```
 
-# Install the plugin
+In Claude Code, register the marketplace using the local path (first time only):
+
+```
+/plugin marketplace add ~/claude-code-plugin-graph-driven-development/.claude-plugin/marketplace.json
+```
+
+Then install the plugin:
+
+```
 /plugin install gdd@gdd-marketplace
 ```
 
