@@ -1,5 +1,5 @@
 ---
-name: gdd:code
+name: code
 description: Implement a feature guided by GDD diagrams — extract design constraints from flowcharts and architecture diagrams before writing code
 argument-hint: "<feature or task description>"
 allowed-tools:

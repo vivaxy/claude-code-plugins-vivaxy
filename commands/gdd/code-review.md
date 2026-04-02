@@ -1,5 +1,5 @@
 ---
-name: gdd:code-review
+name: code-review
 description: Review code implementation against GDD diagrams — verify alignment with design and identify quality improvements
 argument-hint: "[<target>]"
 allowed-tools:
