@@ -80,11 +80,7 @@ Before writing any code:
 /gdd:plan Add user authentication with JWT tokens
 ```
 
-Claude generates a draft proposal in `docs/gdd/drafts/` showing exactly how the diagrams need to change. Review it, then apply it:
-
-```
-/gdd:plan --apply docs/gdd/drafts/draft-plan-2026-01-23-10-30.md
-```
+Claude analyzes the current diagrams, presents the proposed changes in the conversation, and waits for your confirmation before writing anything to `docs/gdd/`.
 
 ### 3. Review the Plan
 
@@ -145,7 +141,6 @@ docs/gdd/
 ├── flow-*.md             # Business process, request, data flow diagrams
 ├── arch-*.md             # Module dependency / component architecture diagrams
 └── drafts/
-    ├── draft-plan-*.md   # Pending proposals (not yet applied)
     └── draft-deviation-*.md  # Recorded deviations from gdd:code
 ```
 
@@ -197,30 +192,24 @@ Initialize GDD for the current project.
 
 ### `/gdd:plan <requirement>`
 
-Create a draft diagram update proposal for a new requirement.
+Propose diagram updates for a new requirement and apply them after confirmation.
 
 - Reads current diagrams
 - Analyzes impact of the requirement
-- Generates `docs/gdd/drafts/draft-plan-<timestamp>.md`
-
-**Options**:
-- `--apply <draft-file>`: Apply an approved draft to `docs/gdd/`
+- Presents the proposed Before/After diagram changes in the conversation
+- Writes the approved changes directly to `docs/gdd/` after user confirmation
 
 **When to use**: Before starting any new feature or change.
 
 ---
 
-### `/gdd:plan-review [--draft <file>] [--focus <area>]`
+### `/gdd:plan-review`
 
 Review diagrams for quality and completeness.
 
 - Checks completeness, consistency, edge cases, and feasibility
 - Outputs a report with `[CRITICAL]`, `[WARNING]`, `[SUGGESTION]` findings
 - Gives a verdict: `APPROVED`, `APPROVED_WITH_WARNINGS`, `NEEDS_WORK`, or `BLOCKED`
-
-**Options**:
-- `--draft <file>`: Review a specific draft proposal
-- `--focus <area>`: Prioritize a named area/module
 
 **When to use**: After updating diagrams, before coding.
 
@@ -238,17 +227,13 @@ Implement code guided by GDD diagrams.
 
 ---
 
-### `/gdd:code-review [--files <glob>] [--since <git-ref>]`
+### `/gdd:code-review`
 
 Review code against GDD diagrams and for quality.
 
 - **Part 1 — Diagram Alignment**: Verifies code matches diagrams
 - **Part 2 — Code Quality**: Identifies bugs, complexity, and maintainability issues
 - Outputs verdict: `APPROVED`, `APPROVED_WITH_WARNINGS`, or `NEEDS_WORK`
-
-**Options**:
-- `--files <glob>`: Review specific files
-- `--since <git-ref>`: Review all files changed since a git ref
 
 **When to use**: After implementation, before merging.
 
@@ -277,10 +262,6 @@ Never silently accept drift.
 
 Update them when you learn something new. A diagram that accurately reflects a simpler system is better than one that aspires to a complex system that doesn't exist.
 
-### Draft Files Are Not Authoritative
-
-A draft in `docs/gdd/drafts/` is a proposal, not a decision. Only approved diagrams in `docs/gdd/` serve as implementation contracts.
-
 ### Use GDD for New Features, Not Archaeology
 
 Don't run `/gdd:init` on a legacy codebase expecting perfect diagrams. Use it to start a diagram set that's roughly accurate, then refine as you work on each area.
@@ -291,9 +272,6 @@ Don't run `/gdd:init` on a legacy codebase expecting perfect diagrams. Use it to
 
 **"GDD is not initialized"**  
 Run `/gdd:init` first.
-
-**"Unreviewed drafts exist"**  
-Either apply or delete the drafts in `docs/gdd/drafts/` before proceeding.
 
 **The generated diagrams are inaccurate**  
 This is expected for complex codebases. Correct them manually — they are Markdown files with Mermaid blocks, easy to edit. Accuracy improves over time as you run `/gdd:plan` for each change.
