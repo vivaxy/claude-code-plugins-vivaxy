@@ -47,6 +47,7 @@ Deviation categories:
 - `[DEVIATION: WRONG_BOUNDARY]` — Code puts X in Module A, diagram puts X in Module B
 - `[DEVIATION: MISSING_ERROR_PATH]` — Diagram shows error path, code has no error handling
 - `[DEVIATION: ALREADY_RECORDED]` — This deviation exists in a draft-deviation file (just note it)
+- `[DEVIATION: MISSING_TEST]` — Diagram shows a decision point, no test covers it (`[CRITICAL]`)
 
 For each deviation, include:
 - Severity: `[CRITICAL]` (wrong behavior), `[WARNING]` (risky shortcut), `[INFO]` (minor drift)
@@ -55,6 +56,16 @@ For each deviation, include:
 - Recommendation: fix the code, OR update the diagram
 
 ## Step 3: Code Quality Review
+
+**TDD Compliance**:
+- Does every flow diagram decision node have at least one corresponding test? Name any missing ones.
+- Are tests named using the `<DiagramFile> → <NodeLabel>: <scenario>` pattern?
+- Are there tests that cannot possibly fail (assert always-true conditions, empty bodies, tests that mock away the logic they claim to verify)?
+
+TDD issue severity:
+- `[CRITICAL]` — A diagram decision node has no test at all
+- `[WARNING]` — Tests exist but naming does not tie to diagram nodes (untraceability)
+- `[SUGGESTION]` — Minor test quality issue
 
 **Correctness**:
 - Are there off-by-one errors, null pointer risks, or unhandled exceptions?

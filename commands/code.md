@@ -126,9 +126,46 @@ EXTERNAL SYSTEM INTERACTIONS:
 - Do NOT call System Z (not in the diagram for this flow)
 ```
 
-## Step 4: Implementation
+## Step 4: Write Failing Tests
 
-Implement the feature following the constraints. During implementation:
+Before writing any production code, write one failing test per decision point extracted in Step 3.
+
+### Test mapping rule
+
+Name each test after its diagram node:
+
+```
+test("<DiagramFile> → <NodeLabel>: <scenario>", ...)
+```
+
+Examples:
+```
+test("flow-request.md → AuthCheck: returns 401 when token is missing", ...)
+test("flow-request.md → AuthCheck: continues to Process when token is valid", ...)
+test("flow-data.md → Rollback: rolls back transaction when DB write fails", ...)
+```
+
+### What to cover
+
+For each **decision node** (two or more outgoing edges): one test per branch.
+For each **error path**: one test that triggers the error condition and asserts the error behavior.
+For each **external system interaction**: one test that stubs the external system and asserts the correct payload.
+
+Skip simple pass-through nodes (one ingoing, one outgoing, no branching logic).
+
+### Verification gate
+
+Run the tests. They must ALL FAIL before proceeding to Step 5. A test that passes before any production code exists is testing nothing — rewrite or delete it.
+
+```
+TDD Gate: N tests written, N failing — proceeding to implementation
+```
+
+Do not proceed to Step 5 until this gate is cleared.
+
+## Step 5: Implement Until Tests Pass
+
+Implement the feature following the constraints. The tests written in Step 4 are the acceptance criteria.
 
 ### Do
 
@@ -136,31 +173,36 @@ Implement the feature following the constraints. During implementation:
 - Implement error handling for every error path shown in flow diagrams
 - Use the same naming as nodes/labels in the diagrams (consistency)
 - Implement steps in the order shown in flow diagrams
-- Add tests that verify each decision point in the relevant flow diagrams
+- Run the test suite after each logical unit of implementation
 
 ### Do NOT
 
 - Import from modules outside the allowed dependency set
 - Skip error paths that are shown in the diagrams
-- Silently deviate from the diagram (see Step 5 if deviation is needed)
+- Silently deviate from the diagram (see Step 6 if deviation is needed)
 - "Improve" the architecture while coding — record it as a deviation instead
+- Write new tests here — tests belong in Step 4; if a missing test is found, pause, write it in failing state, confirm it fails, then implement
 
 ### Track Progress with TodoWrite
 
-Create a todo list from the flow diagram steps:
+Create a todo list covering both test-writing and implementation:
 
 ```
-Implementation todos:
-[ ] Step 1: Validate input (from flow-request.md → Validate node)
-[ ] Step 2: Check authorization (from flow-request.md → AuthCheck node)
-[ ] Step 3: Execute business logic (from flow-data.md → Process node)
-[ ] Step 4: Persist result (from flow-data.md → Write node)
-[ ] Step 5: Return response (from flow-request.md → Response node)
-[ ] Step 6: Handle auth error path (from flow-request.md → Error → 401)
-[ ] Step 7: Handle DB error path (from flow-data.md → Error → Rollback)
+TDD todos:
+[ ] Test: Validate input — flow-request.md → Validate node (write failing test)
+[ ] Test: Auth success path — flow-request.md → AuthCheck node (write failing test)
+[ ] Test: Auth failure → 401 — flow-request.md → Error node (write failing test)
+[ ] Test: DB write failure → Rollback — flow-data.md → Rollback node (write failing test)
+[ ] Run tests — verify all fail (TDD gate)
+[ ] Implement: Validate input
+[ ] Implement: Check authorization
+[ ] Implement: Execute business logic
+[ ] Implement: Persist result
+[ ] Implement: Return response
+[ ] Run tests — verify all pass
 ```
 
-## Step 5: Record Deviations
+## Step 6: Record Deviations
 
 If during implementation you discover that the diagram is inaccurate, incomplete, or impractical:
 
@@ -194,7 +236,7 @@ replace with direct 400 response path.
 
 After recording, continue implementing the practical solution.
 
-## Step 6: Implementation Summary
+## Step 7: Implementation Summary
 
 After completing implementation, output:
 
@@ -208,7 +250,7 @@ Constraint compliance:
 - Module boundaries: FOLLOWED / N DEVIATIONS (see docs/gdd/drafts/)
 - Flow execution order: FOLLOWED / N DEVIATIONS
 - Error paths: FOLLOWED / N DEVIATIONS
-- Test coverage: N tests added for N diagram decision points
+- TDD coverage: N failing tests written, N passing after implementation (N diagram decision points)
 
 Deviations recorded:
 - docs/gdd/drafts/draft-deviation-<timestamp>.md (2 deviations)
@@ -216,7 +258,7 @@ Deviations recorded:
 Starting automated code review...
 ```
 
-## Step 7: Automated Subagent Code Review Loop
+## Step 8: Automated Subagent Code Review Loop
 
 After completing implementation, spawn a subagent to run the code review. Repeat until the verdict is `APPROVED` or `APPROVED_WITH_WARNINGS`.
 
@@ -226,7 +268,7 @@ Use the Agent tool to invoke the `gdd:code-review` skill as a subagent:
 
 ```
 Invoke the `gdd:code-review` skill via the Agent tool.
-Pass the list of code files modified during Step 4 as the argument.
+Pass the list of code files modified during Step 5 as the argument.
 ```
 
 ### Fix-and-Retry Loop
@@ -261,7 +303,7 @@ Then wait for the user to confirm there are no further issues.
 <guidelines>
 - The diagrams are the contract. If reality doesn't match, record the gap — don't silently bridge it
 - Extract constraints BEFORE writing code — never start coding and then check the diagram
-- Tests are not optional: each decision point in a flow diagram should have at least one test case
+- Tests come before code: write failing tests for every decision point before any production code; the TDD gate in Step 4 is not optional
 - Deviation records are not failures — they are valuable feedback that improves the diagrams
 - If you find yourself writing code for a module that doesn't appear in any diagram, that's a signal: either the diagram is incomplete (record it) or you're going out of scope
 </guidelines>
