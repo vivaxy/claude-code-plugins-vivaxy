@@ -22,17 +22,8 @@ GDD addresses this by:
 
 ### Via Claude Code Plugin Marketplace
 
-Clone the repository to a local directory, then add the marketplace using a relative path:
-
-```bash
-# Clone the repository
-git clone https://github.com/vivaxy/claude-code-plugins-vivaxy ~/claude-code-plugins-vivaxy
 ```
-
-In Claude Code, register the marketplace using the local path (first time only):
-
-```
-/plugin marketplace add ~/claude-code-plugins-vivaxy/marketplace.json
+/plugin marketplace add vivaxy/claude-code-plugins-vivaxy
 ```
 
 Then install the plugin:

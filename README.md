@@ -23,7 +23,7 @@ Each plugin has its own installation instructions. See the plugin's README for d
 To add the marketplace:
 
 ```
-/plugin marketplace add ~/claude-code-plugins-vivaxy/marketplace.json
+/plugin marketplace add vivaxy/claude-code-plugins-vivaxy
 ```
 
 ## License
