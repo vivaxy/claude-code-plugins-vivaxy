@@ -1,17 +1,17 @@
 {
-  "name": "gdd-marketplace",
-  "description": "Graph Driven Development plugin marketplace",
+  "name": "vivaxy-marketplace",
+  "description": "Claude Code Plugins vivaxy marketplace",
   "owner": {
-    "name": "GDD Contributors"
+    "name": "vivaxy"
   },
   "plugins": [
     {
       "name": "gdd",
       "description": "Graph Driven Development: enforce development process consistency through flowcharts and architecture diagrams",
-      "version": "1.0.2",
-      "source": "./",
+      "version": "1.0.4",
+      "source": "./plugins/gdd/",
       "author": {
-        "name": "GDD Contributors"
+        "name": "vivaxy"
       }
     }
   ]

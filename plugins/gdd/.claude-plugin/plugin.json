@@ -3,10 +3,10 @@
   "description": "Graph Driven Development: enforce development process consistency through flowcharts and architecture diagrams",
   "version": "1.0.4",
   "author": {
-    "name": "GDD Contributors"
+    "name": "vivaxy"
   },
-  "homepage": "https://github.com/vivaxy/claude-code-plugin-graph-driven-development",
-  "repository": "https://github.com/vivaxy/claude-code-plugin-graph-driven-development",
+  "homepage": "https://github.com/vivaxy/claude-code-plugins-vivaxy",
+  "repository": "https://github.com/vivaxy/claude-code-plugins-vivaxy",
   "license": "MIT",
   "keywords": [
     "graph",
