@@ -1,6 +1,6 @@
 ---
-name: sdd:plan-review
-description: Review SDD diagram files for completeness, consistency, edge cases, design quality, and Mermaid syntax — returns APPROVED, APPROVED_WITH_WARNINGS, NEEDS_WORK, or BLOCKED
+name: vivaxy-workflow:plan-review
+description: Review vivaxy Workflow diagram files for completeness, consistency, edge cases, design quality, and Mermaid syntax — returns APPROVED, APPROVED_WITH_WARNINGS, NEEDS_WORK, or BLOCKED
 argument-hint: "<space-separated list of diagram files to review>"
 allowed-tools:
   - Read
@@ -8,11 +8,11 @@ allowed-tools:
 ---
 
 <SUBAGENT-STOP>
-This skill is intended to be invoked as a subagent by `sdd:plan`. If you are the main agent running `sdd:plan`, do not execute this skill inline — spawn it as a subagent via the Agent tool.
+This skill is intended to be invoked as a subagent by `vivaxy-workflow:plan`. If you are the main agent running `vivaxy-workflow:plan`, do not execute this skill inline — spawn it as a subagent via the Agent tool.
 </SUBAGENT-STOP>
 
 <objective>
-Review the SDD diagram files specified in `$ARGUMENTS` (or all files in `docs/` if no arguments given) across six dimensions. Produce a structured report and assign a verdict.
+Review the vivaxy Workflow diagram files specified in `$ARGUMENTS` (or all files in `docs/` if no arguments given) across six dimensions. Produce a structured report and assign a verdict.
 </objective>
 
 <process>
@@ -92,8 +92,8 @@ BLOCKED             — Fundamental design problem; main agent must rethink the 
 ## Step 4: Output Report
 
 ```
-SDD Diagram Review Report
-=========================
+vivaxy Workflow Diagram Review Report
+======================================
 Files reviewed: <list>
 Verdict: <APPROVED | APPROVED_WITH_WARNINGS | NEEDS_WORK | BLOCKED>
 

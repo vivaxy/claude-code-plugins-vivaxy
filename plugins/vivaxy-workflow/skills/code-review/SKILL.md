@@ -1,5 +1,5 @@
 ---
-name: sdd:code-review
+name: vivaxy-workflow:code-review
 description: Review implemented code for document/diagram alignment and code quality — returns APPROVED, APPROVED_WITH_WARNINGS, or NEEDS_WORK
 argument-hint: "<space-separated list of code files to review>"
 allowed-tools:
@@ -9,18 +9,18 @@ allowed-tools:
 ---
 
 <SUBAGENT-STOP>
-This skill is intended to be invoked as a subagent by `sdd:code`. If you are the main agent running `sdd:code`, do not execute this skill inline — spawn it as a subagent via the Agent tool.
+This skill is intended to be invoked as a subagent by `vivaxy-workflow:code`. If you are the main agent running `vivaxy-workflow:code`, do not execute this skill inline — spawn it as a subagent via the Agent tool.
 </SUBAGENT-STOP>
 
 <objective>
-Review the code files specified in `$ARGUMENTS` against the SDD documents and diagrams in `docs/`. Check document/diagram alignment and code quality. Produce a structured report and assign a verdict.
+Review the code files specified in `$ARGUMENTS` against the vivaxy Workflow documents and diagrams in `docs/`. Check document/diagram alignment and code quality. Produce a structured report and assign a verdict.
 </objective>
 
 <process>
 
 ## Step 1: Read Everything in Parallel
 
-1. All SDD files in `docs/` (excluding `drafts/`)
+1. All vivaxy Workflow files in `docs/` (excluding `drafts/`)
 2. All code files listed in `$ARGUMENTS`
 3. Any existing deviation records in `docs/drafts/draft-deviation-*.md`
 
@@ -107,8 +107,8 @@ NEEDS_WORK          — At least one [CRITICAL] issue; main agent must fix befor
 ## Step 5: Output Report
 
 ```
-SDD Code Review Report
-======================
+vivaxy Workflow Code Review Report
+===================================
 Files reviewed: <list of code files>
 Documents and diagrams compared: <list of files>
 Verdict: <APPROVED | APPROVED_WITH_WARNINGS | NEEDS_WORK>

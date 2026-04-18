@@ -1,4 +1,4 @@
-# Spec Driven Development (SDD)
+# vivaxy Workflow
 
 A Claude Code plugin that enforces development process consistency through design documents, Mermaid flowcharts, and architecture diagrams.
 
@@ -6,11 +6,11 @@ A Claude Code plugin that enforces development process consistency through desig
 
 ---
 
-## Why SDD?
+## Why vivaxy Workflow?
 
 Without design documentation, coding agents drift: they fix the immediate problem but miss the broader system picture. Over time, the codebase diverges from intent, and each new feature makes the architecture harder to understand.
 
-SDD addresses this by:
+vivaxy Workflow addresses this by:
 
 1. **Making design explicit** — Every module boundary, flow path, and key decision is documented in `docs/`
 2. **Enforcing spec-first** — Code is only written after documents and diagrams are updated and reviewed
@@ -29,21 +29,21 @@ SDD addresses this by:
 Then install the plugin:
 
 ```
-/plugin install sdd@vivaxy-marketplace
+/plugin install vivaxy-workflow@vivaxy-marketplace
 ```
 
 ### Manual Installation (Global)
 
 ```bash
-cp -r plugins/sdd/skills/ ~/.claude/skills/sdd/
-cp plugins/sdd/CLAUDE.md ~/.claude/CLAUDE.md   # or append to existing ~/.claude/CLAUDE.md
+cp -r plugins/vivaxy-workflow/skills/ ~/.claude/skills/vivaxy-workflow/
+cp plugins/vivaxy-workflow/CLAUDE.md ~/.claude/CLAUDE.md   # or append to existing ~/.claude/CLAUDE.md
 ```
 
 ### Manual Installation (Project-Level)
 
 ```bash
-mkdir -p .claude/skills/sdd/
-cp -r plugins/sdd/skills/ .claude/skills/sdd/
+mkdir -p .claude/skills/vivaxy-workflow/
+cp -r plugins/vivaxy-workflow/skills/ .claude/skills/vivaxy-workflow/
 # Append CLAUDE.md content to your project's .claude/CLAUDE.md
 ```
 
@@ -56,7 +56,7 @@ cp -r plugins/sdd/skills/ .claude/skills/sdd/
 Before writing any code:
 
 ```
-sdd:plan Add user authentication with JWT tokens
+vivaxy-workflow:plan Add user authentication with JWT tokens
 ```
 
 Claude analyzes the current documents and diagrams (or creates them if missing), presents the proposed changes in the conversation, and waits for your confirmation before writing anything to `docs/`. After applying the changes, Claude automatically runs a diagram review as a subagent — fixing critical issues and re-reviewing until the documents are approved.
@@ -64,18 +64,18 @@ Claude analyzes the current documents and diagrams (or creates them if missing),
 ### 2. Implement
 
 ```
-sdd:code Implement JWT authentication middleware
+vivaxy-workflow:code Implement JWT authentication middleware
 ```
 
 Claude reads the documents and diagrams, extracts implementation constraints, then writes code that follows the defined boundaries and flows. Any necessary deviations are recorded. After implementation, Claude automatically runs a code review as a subagent — fixing critical issues and re-reviewing until the code is approved.
 
 ---
 
-## The SDD Workflow
+## The vivaxy Workflow
 
 ```
 ┌────────────────────────────────────┐
-│  sdd:plan                          │
+│  vivaxy-workflow:plan              │
 │  Propose → confirm → apply         │
 │  Subagent review → fix → re-review │
 │  └────── until APPROVED ──────┘    │
@@ -83,7 +83,7 @@ Claude reads the documents and diagrams, extracts implementation constraints, th
                │
                ▼
 ┌────────────────────────────────────┐
-│  sdd:code                          │
+│  vivaxy-workflow:code              │
 │  Read docs & diagrams → implement  │
 │  Subagent review → fix → re-review │
 │  └────── until APPROVED ──────┘    │
@@ -103,7 +103,7 @@ docs/
 ├── flow-*.md             # Business process, request, data flow diagrams
 ├── arch-*.md             # Module dependency / component architecture diagrams
 └── drafts/
-    └── draft-deviation-*.md  # Recorded deviations from sdd:code
+    └── draft-deviation-*.md  # Recorded deviations from vivaxy-workflow:code
 ```
 
 Each diagram `.md` file contains Mermaid diagram(s) plus explanatory text:
@@ -163,7 +163,7 @@ Each design document (`doc-*.md`) captures prose requirements and decisions:
 
 ## Skill Reference
 
-### `sdd:plan <requirement>`
+### `vivaxy-workflow:plan <requirement>`
 
 Propose document and diagram updates for a new requirement and apply them after confirmation.
 
@@ -172,15 +172,15 @@ Propose document and diagram updates for a new requirement and apply them after 
 - Presents the proposed changes in the conversation
 - Writes the approved changes to `docs/` after user confirmation
 - Automatically runs a subagent diagram review loop — fixing critical issues and re-reviewing until reaching `APPROVED` or `APPROVED_WITH_WARNINGS`
-- Then invokes `sdd:code` to implement the feature
+- Then invokes `vivaxy-workflow:code` to implement the feature
 
 **When to use**: Before starting any new feature or change.
 
 ---
 
-### `sdd:code <task description>`
+### `vivaxy-workflow:code <task description>`
 
-Implement code guided by SDD documents and diagrams.
+Implement code guided by vivaxy Workflow documents and diagrams.
 
 - Reads documents and diagrams and extracts implementation constraints
 - Writes code that follows defined module boundaries and flow order
@@ -205,7 +205,7 @@ Too abstract → no actual constraint on implementation
 
 Documents and diagrams in `docs/` (not `drafts/`) are authoritative. When code and docs disagree:
 
-1. If the code is right → update the document/diagram via `sdd:plan`
+1. If the code is right → update the document/diagram via `vivaxy-workflow:plan`
 2. If the document/diagram is right → fix the code
 
 Never silently accept drift.
@@ -214,22 +214,22 @@ Never silently accept drift.
 
 Update them when you learn something new. A document that accurately reflects a simpler system is better than one that aspires to a complex system that doesn't exist.
 
-### Use SDD for New Features, Not Archaeology
+### Use vivaxy Workflow for New Features, Not Archaeology
 
-Don't run `sdd:plan` on a legacy codebase expecting perfect diagrams. Use it to start a document set that's roughly accurate, then refine as you work on each area.
+Don't run `vivaxy-workflow:plan` on a legacy codebase expecting perfect diagrams. Use it to start a document set that's roughly accurate, then refine as you work on each area.
 
 ---
 
 ## Troubleshooting
 
 **"docs/ is missing or incomplete"**  
-Just describe your requirement — `sdd:plan` will auto-create the initial documents and diagrams.
+Just describe your requirement — `vivaxy-workflow:plan` will auto-create the initial documents and diagrams.
 
 **The generated diagrams are inaccurate**  
-This is expected for complex codebases. Correct them manually — they are Markdown files with Mermaid blocks, easy to edit. Accuracy improves over time as you run `sdd:plan` for each change.
+This is expected for complex codebases. Correct them manually — they are Markdown files with Mermaid blocks, easy to edit. Accuracy improves over time as you run `vivaxy-workflow:plan` for each change.
 
 **Code review finds too many deviations**  
-If deviations are consistently valid (the code is right, the document is wrong), the documents need to be updated via `sdd:plan`. If deviations are consistently invalid (the code ignored the document), enforce the SDD workflow more strictly.
+If deviations are consistently valid (the code is right, the document is wrong), the documents need to be updated via `vivaxy-workflow:plan`. If deviations are consistently invalid (the code ignored the document), enforce the vivaxy Workflow more strictly.
 
 ---
 

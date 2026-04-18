@@ -1,8 +1,8 @@
-# SDD Plugin — System Overview
+# vivaxy-workflow Plugin — System Overview
 
 > **Type**: Overview
 > **Last Updated**: 2026-04-07
-> **Covers**: System boundary and external actors for the Spec Driven Development Claude Code plugin
+> **Covers**: System boundary and external actors for the vivaxy Workflow Claude Code plugin
 
 ## Diagram
 
@@ -10,7 +10,7 @@
 flowchart TD
     User["Developer (User)"]
     ClaudeCode["Claude Code CLI"]
-    Plugin["SDD Plugin<br>(skills + hooks)"]
+    Plugin["vivaxy-workflow Plugin<br>(skills + hooks)"]
     ProjectDocs["docs/<br>(design documents + diagram files)"]
     ProjectCode["Project Source Code"]
 

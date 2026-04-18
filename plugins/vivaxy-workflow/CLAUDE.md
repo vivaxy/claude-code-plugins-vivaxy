@@ -1,6 +1,6 @@
-# Spec Driven Development (SDD)
+# vivaxy Workflow
 
-This project uses Spec Driven Development. All feature development must align with the documents and diagrams maintained in `docs/`.
+This project uses vivaxy Workflow. All feature development must align with the documents and diagrams maintained in `docs/`.
 
 ## docs/ Directory Specification
 
@@ -112,19 +112,19 @@ Draft files in `docs/drafts/` follow this structure:
 ... proposed content (or mermaid block) ...
 ```
 
-## SDD Development Workflow
+## vivaxy Workflow Development Workflow
 
 ```
-sdd:plan → sdd:code
+vivaxy-workflow:plan → vivaxy-workflow:code
 ```
 
-1. **`sdd:plan` skill**: For a new requirement, write/update design documents and diagrams, then automatically run a subagent review loop until approved
-2. **`sdd:code` skill**: Implement code guided by the approved documents and diagrams, then automatically run a subagent code review loop until implementation is approved
+1. **`vivaxy-workflow:plan` skill**: For a new requirement, write/update design documents and diagrams, then automatically run a subagent review loop until approved
+2. **`vivaxy-workflow:code` skill**: Implement code guided by the approved documents and diagrams, then automatically run a subagent code review loop until implementation is approved
 
 ## Agent Behavior Rules
 
 - **Documents and diagrams first**: Before writing any code for a feature, always write/update the relevant `doc-*.md` design document AND the relevant `flow-*.md` / `arch-*.md` diagrams
 - **Auto-initialize**: If `docs/` is missing or incomplete, proactively create the missing files — never block or ask the user to run a setup command
-- **Never modify diagram files directly** during `sdd:code` — record deviations and update diagrams separately
+- **Never modify diagram files directly** during `vivaxy-workflow:code` — record deviations and update diagrams separately
 - **Always read** the relevant documents and diagram files before starting any implementation task
 - **Draft files are not authoritative** — only approved files in `docs/` (not `drafts/`) serve as the source of truth
