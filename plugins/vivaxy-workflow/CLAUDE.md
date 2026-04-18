@@ -132,6 +132,11 @@ vivaxy-workflow:main:clarify
 5. **`vivaxy-workflow:main:review`**: End-to-end feature acceptance — all subtasks, test suite, success criteria
 6. **`vivaxy-workflow:main:deliver`**: Retrospective, clean up drafts, deliver final summary
 
+## Analyze Skills
+
+Use `vivaxy-workflow:analyze:problem` to run a structured analysis on any complex problem.
+Use `vivaxy-workflow:analyze:model` to build a visual conceptual model of any domain or system.
+
 ## Agent Behavior Rules
 
 - **Clarify first**: Before any planning or coding, confirm the problem statement is written in `doc-clarification.md`

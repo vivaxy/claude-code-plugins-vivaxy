@@ -1,7 +1,6 @@
 ---
-name: analyze:model
+name: vivaxy-workflow:analyze:model
 description: Build a visual conceptual model of any topic, domain, or system — entities, relationships, and hierarchies as a Mermaid diagram
-argument-hint: "<topic or domain to model>"
 allowed-tools:
   - Read
   - Glob

@@ -1,7 +1,6 @@
 ---
-name: analyze:problem
+name: vivaxy-workflow:analyze:problem
 description: Analyze a complex problem — collect facts into facts.md, decompose, trace root causes, build a visual model, and surface key questions
-argument-hint: "<problem description>"
 allowed-tools:
   - Read
   - Glob

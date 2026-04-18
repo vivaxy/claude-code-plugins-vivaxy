@@ -1,7 +1,7 @@
 {
   "name": "vivaxy-workflow",
-  "description": "vivaxy Workflow: enforce development process consistency through design documents, flowcharts, and architecture diagrams",
-  "version": "0.1.0",
+  "description": "vivaxy Workflow: enforce development process consistency through design documents, flowcharts, architecture diagrams, and structured problem analysis",
+  "version": "0.2.0",
   "author": {
     "name": "vivaxy"
   },
@@ -16,6 +16,10 @@
     "workflow",
     "process",
     "mermaid",
-    "design-first"
+    "design-first",
+    "analysis",
+    "first-principles",
+    "decomposition",
+    "root-cause"
   ]
 }
