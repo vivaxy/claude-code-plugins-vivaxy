@@ -1,47 +1,53 @@
 # vivaxy-workflow Skill Execution Flow
 
 > **Type**: Flow
-> **Last Updated**: 2026-04-07
-> **Covers**: End-to-end flow from user describing a task to documents, diagrams, and code being approved
+> **Last Updated**: 2026-04-18
+> **Covers**: End-to-end flow from user describing a feature to delivery
 
 ## Diagram
 
 ```mermaid
 flowchart TD
-    Start([User describes a task])
+    Start([User describes a feature task])
 
-    Start --> UsingVivaxyWorkflow{"using-vivaxy-workflow skill<br>feature task?"}
+    Start --> UsingVivaxyWorkflow{"using-vivaxy-workflow<br>feature task?"}
     UsingVivaxyWorkflow -->|No — bug fix / docs| Passthrough([Proceed normally])
-    UsingVivaxyWorkflow -->|Yes| EnterPlan[EnterPlanMode<br>Read docs & diagrams, analyze impact,<br>DDD analysis if needed]
+    UsingVivaxyWorkflow -->|Yes| CheckClarify{"doc-clarification.md<br>exists?"}
 
-    EnterPlan --> ExitPlan[ExitPlanMode<br>Present summary for approval]
-    ExitPlan -->|Rejected| EnterPlan
-    ExitPlan -->|Approved| ApplyDocs[Apply changes to docs/<br>Create/update doc-*.md, flow-*.md, arch-*.md]
-    ApplyDocs --> DiagramReview[Subagent diagram review]
-    DiagramReview --> DiagramVerdict{Verdict}
-    DiagramVerdict -->|NEEDS_WORK / BLOCKED| FixDiagrams[Fix critical issues<br>in docs/]
-    FixDiagrams --> DiagramReview
-    DiagramVerdict -->|APPROVED / APPROVED_WITH_WARNINGS| ReadyToCode[Documents and diagrams approved]
+    CheckClarify -->|No| Clarify["vivaxy-workflow:clarify<br>Q&A with user,<br>write doc-clarification.md"]
+    Clarify --> CheckPlan{"doc-subtasks.md<br>exists?"}
 
-    ReadyToCode --> RunCode["vivaxy-workflow:code task<br>Extract constraints,<br>implement code"]
-    RunCode --> CodeReview[Subagent code review<br>Doc/diagram alignment +<br>Code quality]
-    CodeReview --> CodeVerdict{Verdict}
-    CodeVerdict -->|NEEDS_WORK| FixCode[Fix critical issues<br>in code files]
-    FixCode --> CodeReview
-    CodeVerdict -->|APPROVED / APPROVED_WITH_WARNINGS| Done([Implementation complete])
+    CheckClarify -->|Yes| CheckPlan
+    CheckPlan -->|No| Plan["vivaxy-workflow:plan<br>Decompose into subtasks,<br>write design docs + diagrams,<br>ExitPlanMode for approval,<br>write doc-subtasks.md"]
+    Plan --> SubtaskLoop
+
+    CheckPlan -->|Yes| SubtaskLoop{"Pending subtasks?"}
+    SubtaskLoop -->|Yes| Execute["vivaxy-workflow:subtask-execute ST-XX<br>Read docs, TDD implementation,<br>update subtask status"]
+    Execute --> SubtaskReview["vivaxy-workflow:subtask-review<br>(subagent)<br>Check acceptance criteria<br>+ doc alignment"]
+    SubtaskReview --> SubtaskVerdict{Verdict}
+    SubtaskVerdict -->|NEEDS_WORK| FixSubtask[Fix issues in code]
+    FixSubtask --> SubtaskReview
+    SubtaskVerdict -->|ACCEPTED| MarkAccepted[Mark subtask ACCEPTED<br>in doc-subtasks.md]
+    MarkAccepted --> SubtaskLoop
+
+    SubtaskLoop -->|No — all ACCEPTED| Review["vivaxy-workflow:review<br>Verify all subtasks,<br>run test suite,<br>check success criteria"]
+    Review --> FeatureVerdict{Verdict}
+    FeatureVerdict -->|FEATURE_BLOCKED| FixFeature[Fix blocking issues]
+    FixFeature --> Review
+    FeatureVerdict -->|FEATURE_ACCEPTED| Deliver["vivaxy-workflow:deliver<br>Write retrospective,<br>clean up drafts,<br>deliver summary"]
+    Deliver --> Done([Done])
 ```
 
 ## Key Decisions
 
-- The `using-vivaxy-workflow` skill invokes `vivaxy-workflow:plan` directly — the user does not need to type a command
-- `vivaxy-workflow:plan` uses `EnterPlanMode`/`ExitPlanMode` as the user approval gate
-- Both plan and code phases use a subagent fix-and-retry loop to self-heal critical issues
-- Bug fixes and non-feature tasks are caught early by `using-vivaxy-workflow` and bypass the vivaxy Workflow entirely
-- Deviations discovered during coding are recorded in `docs/drafts/` rather than silently applied
-- `docs/` is auto-initialized if missing — the plan step creates initial documents and diagrams as needed
+- Workflow state is detected from `docs/` file presence — the routing skill resumes from the correct phase automatically
+- `vivaxy-workflow:plan` uses `EnterPlanMode`/`ExitPlanMode` as the user approval gate for the subtask plan
+- Each subtask is independently executed and accepted before moving to the next
+- `vivaxy-workflow:subtask-review` is a read-only subagent — it never writes files
+- `vivaxy-workflow:review` runs the full test suite as part of end-to-end acceptance
+- Deviations discovered during execution are recorded in `docs/drafts/` rather than silently modifying diagrams
 
 ## Notes
 
 - Cross-reference: `arch-modules.md` shows which files implement each step
-- The `using-vivaxy-workflow` skill handles routing logic and invokes `vivaxy-workflow:plan` automatically for feature tasks
 - SessionStart hook injects vivaxy Workflow routing guidance at the start of each session

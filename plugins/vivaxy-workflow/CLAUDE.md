@@ -15,13 +15,16 @@ The `docs/` directory contains the authoritative design documents and diagrams f
 | `arch-*.md` | Module dependency or component architecture diagrams | `arch-modules.md`, `arch-services.md` |
 | `arch-ddd-*.md` | DDD bounded context maps | `arch-ddd-contexts.md` |
 | `doc-*.md` | Prose design documents (requirements, decisions, specs) | `doc-auth-design.md`, `doc-api-spec.md` |
+| `doc-clarification.md` | Clarified problem statement, constraints, success criteria | `doc-clarification.md` |
+| `doc-subtasks.md` | Ordered subtask list with status tracking | `doc-subtasks.md` |
+| `doc-retrospective-*.md` | Post-delivery retrospective and learnings | `doc-retrospective-2026-04-18.md` |
 | `drafts/draft-*.md` | Pending plan proposals awaiting user approval | `drafts/draft-plan-2026-01-23.md` |
 
 ### Completeness Rules
 
 `docs/` is considered **complete** when:
-- At least one `flow-*.md` file exists
-- At least one `arch-*.md` file exists
+- `doc-clarification.md` exists
+- `doc-subtasks.md` exists
 - No unapproved draft files exist in `docs/drafts/`
 
 If `docs/` is missing or incomplete, the agent MUST proactively create the missing documents — do NOT ask the user to run any command first.
@@ -115,16 +118,25 @@ Draft files in `docs/drafts/` follow this structure:
 ## vivaxy Workflow Development Workflow
 
 ```
-vivaxy-workflow:plan → vivaxy-workflow:code
+vivaxy-workflow:clarify
+  → vivaxy-workflow:plan
+    → Loop: vivaxy-workflow:subtask-execute → vivaxy-workflow:subtask-review
+      → vivaxy-workflow:review
+        → vivaxy-workflow:deliver
 ```
 
-1. **`vivaxy-workflow:plan` skill**: For a new requirement, write/update design documents and diagrams, then automatically run a subagent review loop until approved
-2. **`vivaxy-workflow:code` skill**: Implement code guided by the approved documents and diagrams, then automatically run a subagent code review loop until implementation is approved
+1. **`vivaxy-workflow:clarify`**: Clarify the problem with the user, write `docs/doc-clarification.md`
+2. **`vivaxy-workflow:plan`**: Decompose into subtasks, write design docs and diagrams, write `docs/doc-subtasks.md`
+3. **`vivaxy-workflow:subtask-execute <ST-XX>`**: Execute one subtask (TDD), invoke `subtask-review` subagent, mark ACCEPTED
+4. **`vivaxy-workflow:subtask-review`**: Subagent — verifies acceptance criteria and doc alignment
+5. **`vivaxy-workflow:review`**: End-to-end feature acceptance — all subtasks, test suite, success criteria
+6. **`vivaxy-workflow:deliver`**: Retrospective, clean up drafts, deliver final summary
 
 ## Agent Behavior Rules
 
-- **Documents and diagrams first**: Before writing any code for a feature, always write/update the relevant `doc-*.md` design document AND the relevant `flow-*.md` / `arch-*.md` diagrams
+- **Clarify first**: Before any planning or coding, confirm the problem statement is written in `doc-clarification.md`
 - **Auto-initialize**: If `docs/` is missing or incomplete, proactively create the missing files — never block or ask the user to run a setup command
-- **Never modify diagram files directly** during `vivaxy-workflow:code` — record deviations and update diagrams separately
+- **Never modify diagram files directly** during `vivaxy-workflow:subtask-execute` — record deviations in `docs/drafts/`
 - **Always read** the relevant documents and diagram files before starting any implementation task
 - **Draft files are not authoritative** — only approved files in `docs/` (not `drafts/`) serve as the source of truth
+- **Subtask status** is tracked in `doc-subtasks.md` — update it as work progresses

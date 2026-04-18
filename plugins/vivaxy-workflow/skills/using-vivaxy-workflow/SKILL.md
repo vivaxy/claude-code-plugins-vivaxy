@@ -1,6 +1,6 @@
 ---
 name: vivaxy-workflow:using-vivaxy-workflow
-description: Guide for when to apply the vivaxy Workflow — read at session start to understand when vivaxy Workflow applies and what to do first
+description: Guide for when to apply vivaxy Workflow — read at session start to understand when vivaxy Workflow applies and what to do first
 ---
 
 <SUBAGENT-STOP>
@@ -9,16 +9,16 @@ If you were dispatched as a subagent to execute a specific task, skip this skill
 
 # Using vivaxy Workflow
 
-vivaxy Workflow enforces a spec-first development process: write/update design documents and architecture diagrams before writing code.
+vivaxy Workflow enforces a structured 5-phase development process: clarify → plan → execute subtasks → review → deliver.
 
 ## When vivaxy Workflow Applies
 
 | Task type | vivaxy Workflow required? |
-|-----------|--------------|
-| Implement a new feature | YES — invoke `vivaxy-workflow:plan` skill |
-| Add a new API endpoint or route | YES — invoke `vivaxy-workflow:plan` skill |
-| Refactor a module's structure | YES — invoke `vivaxy-workflow:plan` skill |
-| Add a new component / service | YES — invoke `vivaxy-workflow:plan` skill |
+|-----------|--------------------------|
+| Implement a new feature | YES — route based on workflow state |
+| Add a new API endpoint or route | YES — route based on workflow state |
+| Refactor a module's structure | YES — route based on workflow state |
+| Add a new component / service | YES — route based on workflow state |
 | Fix a bug in existing code | NO |
 | Fix a typo or rename | NO |
 | Write or update tests | NO |
@@ -30,29 +30,32 @@ vivaxy Workflow enforces a spec-first development process: write/update design d
 
 ## Routing Logic
 
-1. Is this a feature/new-functionality task?
-   - NO → proceed normally
-   - YES → check project state:
+For feature tasks, detect the current workflow state by checking `docs/`:
 
-2. Does `docs/` exist with at least one `flow-*.md` AND one `arch-*.md`?
-   - NO → invoke `vivaxy-workflow:plan` skill directly (it will auto-initialize `docs/` as needed)
-   - YES → invoke `vivaxy-workflow:plan` skill directly with the user's requirement as the argument
+| Condition | Route to |
+|-----------|----------|
+| `docs/doc-clarification.md` does not exist | `vivaxy-workflow:clarify` |
+| `doc-clarification.md` exists, `doc-subtasks.md` does not exist | `vivaxy-workflow:plan` |
+| `doc-subtasks.md` exists with at least one PENDING subtask | `vivaxy-workflow:subtask-execute <first-pending-id>` |
+| All subtasks in `doc-subtasks.md` are ACCEPTED, no retrospective yet | `vivaxy-workflow:review` |
+| `doc-retrospective-*.md` does not exist after all subtasks accepted | `vivaxy-workflow:deliver` |
+| Bug fix / non-feature task | Proceed normally |
 
-## When vivaxy Workflow Is Not Initialized
-
-Do not wait for user confirmation. Immediately invoke the `vivaxy-workflow:plan` skill — it will proactively create the missing `docs/` files as part of the plan.
-
-## When vivaxy Workflow Is Initialized
+## How to Route
 
 Do not wait for user confirmation. Immediately:
 
-1. Say one line: "vivaxy Workflow is active — running `vivaxy-workflow:plan` for your requirement."
-2. Invoke the `vivaxy-workflow:plan` skill with the user's requirement as the argument.
+1. Say one line: "vivaxy Workflow is active — routing to `vivaxy-workflow:<skill>`."
+2. Invoke the appropriate skill.
+
+## When vivaxy Workflow Is Not Initialized
+
+If `docs/` does not exist or `doc-clarification.md` is missing, invoke `vivaxy-workflow:clarify` directly. It will create `docs/` as needed.
 
 ## Instruction Priority
 
 1. User's explicit instructions (CLAUDE.md, direct requests) — highest
-2. vivaxy Workflow — for feature development tasks
+2. vivaxy Workflow routing — for feature development tasks
 3. Default behavior — for everything else
 
-If the user says "just implement it, skip the spec" — respect that.
+If the user says "just implement it, skip the workflow" — respect that.

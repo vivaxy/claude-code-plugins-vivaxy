@@ -1,7 +1,7 @@
 # vivaxy-workflow Plugin — System Overview
 
 > **Type**: Overview
-> **Last Updated**: 2026-04-07
+> **Last Updated**: 2026-04-18
 > **Covers**: System boundary and external actors for the vivaxy Workflow Claude Code plugin
 
 ## Diagram
