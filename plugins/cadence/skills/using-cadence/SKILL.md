@@ -33,7 +33,7 @@ Use the Session Type from the clarification summary in the current conversation,
 
 | Session Type | Condition | Route to |
 |---|---|---|
-| `feature-dev` | No plan in conversation | `cadence:main:plan` |
+| `feature-dev` | No plan in conversation | `plan` agent |
 | `feature-dev` | Plan approved, not yet reviewed | `cadence:main:review` → `cadence:main:deliver` |
 | `bugfix` | Any state | `cadence:main:bugfix` |
 | `doc-writing` | Any state | `cadence:main:doc-writing` |
@@ -43,12 +43,14 @@ Use the Session Type from the clarification summary in the current conversation,
 
 Do not wait for user confirmation before routing. Immediately:
 
-1. Say one line: "Cadence is active — routing to `cadence:<skill>`."
-2. Invoke the appropriate skill.
+1. Say one line matching the destination:
+   - Spawning an agent: "Cadence is active — spawning `<agent>` agent."
+   - Invoking a skill: "Cadence is active — routing to `cadence:<skill>`."
+2. Spawn the agent (via Agent tool) or invoke the skill (via Skill tool) as appropriate.
 
 ## Trivial tasks — still clarify if no session established
 
-Even for trivial tasks, apply the clarification gate. If no clarification summary exists, invoke `cadence:main:clarify` first. Only skip clarification when a session is already established and the request clearly fits within it.
+Even for trivial tasks, apply the clarification gate. If no clarification summary exists, spawn the `clarify` agent first. Only skip clarification when a session is already established and the request clearly fits within it.
 
 ## Instruction Priority
 
