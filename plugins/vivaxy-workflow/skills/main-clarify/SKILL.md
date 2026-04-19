@@ -1,7 +1,6 @@
 ---
 name: vivaxy-workflow:main:clarify
 description: Clarify the problem with the user before decomposing into subtasks — asks focused questions and confirms understanding in conversation
-argument-hint: "<feature or problem description>"
 allowed-tools:
   - Read
   - Glob
@@ -13,15 +12,9 @@ Understand the feature or problem clearly enough to decompose it into subtasks. 
 
 <process>
 
-## Step 1: Check for Existing Clarification
+## Step 1: Understand the Initial Request
 
-Check if a clarification summary has already been established earlier in the current conversation:
-- If it has, summarize the current problem statement to the user. Ask if it's still accurate or needs updating.
-- If it has not, proceed to Step 2.
-
-## Step 2: Understand the Initial Request
-
-The initial description is in `$ARGUMENTS`. If `$ARGUMENTS` is empty, ask the user to describe the feature or problem in one sentence.
+Ask until you fully understand what the user wants. Apply first-principles thinking: do not assume the user knows exactly what they want or how to achieve it. Listen and ask follow-up questions to help shape it into a clear problem statement.
 
 Assess what is already clear and what is ambiguous:
 - **Scope**: What is in scope? What is explicitly out of scope?
