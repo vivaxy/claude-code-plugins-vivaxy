@@ -130,7 +130,7 @@ PASS | FAIL
 On FEATURE_ACCEPTED or FEATURE_ACCEPTED_WITH_WARNINGS, append:
 
 ```
-Feature accepted. Run `cadence:main:deliver` to close out.
+Feature accepted. Run `cadence:deliver` to close out.
 ```
 
 ## Guidelines

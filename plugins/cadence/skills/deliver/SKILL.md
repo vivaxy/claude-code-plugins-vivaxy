@@ -1,5 +1,5 @@
 ---
-name: cadence:main:deliver
+name: cadence:deliver
 description: Retrospective, consolidate learnings, and deliver final results — outputs retrospective to conversation, summarizes what was built
 allowed-tools:
   - Read

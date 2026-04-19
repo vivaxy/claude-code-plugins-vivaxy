@@ -37,7 +37,7 @@ Invoke the `clarify` agent when either:
 |---|---|
 | No plan in conversation | `plan` agent |
 | Plan approved, implementation not started | implement phase (see below) |
-| All steps implemented and verified | `review` agent → `cadence:main:deliver` |
+| All steps implemented and verified | `review` agent → `cadence:deliver` |
 
 #### Analyze gate
 
