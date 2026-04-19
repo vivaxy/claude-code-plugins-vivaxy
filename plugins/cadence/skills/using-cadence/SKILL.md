@@ -69,6 +69,8 @@ After the plan agent completes and the user approves the plan:
 
 ## How to Route
 
+**After the clarify agent returns**: immediately re-evaluate the routing table in section 2 above and proceed — do not wait for user input.
+
 Do not wait for user confirmation before routing. Immediately:
 
 1. Say one line matching the destination:
