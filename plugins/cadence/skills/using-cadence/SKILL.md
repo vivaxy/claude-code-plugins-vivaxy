@@ -21,9 +21,11 @@ Cadence enforces a session-type-specific procedure. Every non-trivial session st
 
 ## Routing Logic
 
-### 1. No clarification yet → always clarify first
+### 1. Clarification gate — clarify when the request is not covered
 
-If no clarification summary has been established in the current conversation, invoke `cadence:main:clarify` immediately — regardless of task type.
+Invoke `cadence:main:clarify` when either:
+- No clarification summary exists in the current conversation, OR
+- The request is unrelated to the established session (different problem domain, different goal)
 
 ### 2. Clarification exists → route by session type
 
@@ -38,15 +40,6 @@ Use the Session Type from the clarification summary in the current conversation,
 | `doc-writing` | Any state | `cadence:main:doc-writing` |
 | `architecture` | Any state | `cadence:main:architecture` |
 
-### 3. Session type mismatch → ask before switching
-
-If a Session Type has been established in the current conversation, and the user's new request clearly belongs to a **different** session type, do not silently proceed. Instead say:
-
-> "Current session type is `<established-type>`. Your request looks like `<new-type>`. Switch session types? (This will restart clarification fresh.) Or say 'proceed anyway' to continue within the current session."
-
-- **If the user confirms the switch**: Invoke `cadence:main:clarify` fresh.
-- **If the user says "proceed anyway"**: Continue routing under the established session type.
-
 ## How to Route
 
 Do not wait for user confirmation before routing. Immediately:
@@ -54,9 +47,9 @@ Do not wait for user confirmation before routing. Immediately:
 1. Say one line: "Cadence is active — routing to `cadence:<skill>`."
 2. Invoke the appropriate skill.
 
-## Trivial tasks — skip workflow
+## Trivial tasks — still clarify if no session established
 
-For truly trivial tasks (fix a typo, rename a variable, answer a question, update a config value), skip the workflow entirely and handle directly. Use judgment: if it takes less than 2 minutes and touches fewer than 3 lines, it's trivial.
+Even for trivial tasks, apply the clarification gate. If no clarification summary exists, invoke `cadence:main:clarify` first. Only skip clarification when a session is already established and the request clearly fits within it.
 
 ## Instruction Priority
 
