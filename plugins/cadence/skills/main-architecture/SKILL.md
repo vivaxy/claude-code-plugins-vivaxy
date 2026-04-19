@@ -42,9 +42,9 @@ Ask: "Does this model capture the intended design, or are there relationships or
 
 Incorporate feedback.
 
-## Step 4: Write Design Document
+## Step 4: Present Design Document
 
-Write a prose design document (`docs/doc-<name>.md`) covering:
+Output a prose design document in the conversation covering:
 
 ```markdown
 # <Design Title>
@@ -85,11 +85,11 @@ Self-review before presenting:
 - Are the trade-offs of rejected options documented?
 - Is the diagram consistent with the prose?
 
-Present the design doc and diagram to the user. Ask: "Does this decision and design look right, or are there trade-offs or constraints we haven't accounted for?"
+Present the design document and diagram to the user. Ask: "Does this decision and design look right, or are there trade-offs or constraints we haven't accounted for?"
 
-Incorporate final feedback and save all files.
+Incorporate final feedback and save diagram files.
 
-Output: "Architecture design complete. Design doc: `docs/doc-<name>.md`. Diagram: `docs/<type>-<name>.md`."
+Output: "Architecture design complete. Diagram: `docs/<type>-<name>.md`."
 
 </process>
 

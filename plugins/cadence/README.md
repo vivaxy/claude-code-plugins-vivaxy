@@ -99,11 +99,8 @@ Documents and diagrams live in `docs/`. They change first, code follows.
 ```
 docs/
 ├── overview.md           # System context / big-picture boundary
-├── doc-*.md              # Prose design documents (requirements, decisions, specs)
 ├── flow-*.md             # Business process, request, data flow diagrams
-├── arch-*.md             # Module dependency / component architecture diagrams
-└── drafts/
-    └── draft-deviation-*.md  # Recorded deviations from cadence:code
+└── arch-*.md             # Module dependency / component architecture diagrams
 ```
 
 Each diagram `.md` file contains Mermaid diagram(s) plus explanatory text:
@@ -136,29 +133,6 @@ flowchart TD
 - UserService owns all DB interactions for user data
 ```
 
-Each design document (`doc-*.md`) captures prose requirements and decisions:
-
-```markdown
-# Auth Design
-
-> **Type**: Design Document
-> **Last Updated**: 2026-01-23
-> **Covers**: JWT authentication design decisions
-
-## Overview
-
-...
-
-## Requirements
-
-- Tokens expire after 24 hours
-- Refresh tokens are stored in HttpOnly cookies
-
-## Design
-
-...
-```
-
 ---
 
 ## Skill Reference
@@ -184,7 +158,7 @@ Implement code guided by Cadence documents and diagrams.
 
 - Reads documents and diagrams and extracts implementation constraints
 - Writes code that follows defined module boundaries and flow order
-- Records any necessary deviations in `docs/drafts/draft-deviation-*.md`
+- Records any necessary deviations in the conversation
 - Automatically runs a subagent code review loop (doc/diagram alignment + code quality) — fixing critical issues and re-reviewing until reaching `APPROVED` or `APPROVED_WITH_WARNINGS`
 
 **When to use**: When documents and diagrams are approved and you're ready to implement.

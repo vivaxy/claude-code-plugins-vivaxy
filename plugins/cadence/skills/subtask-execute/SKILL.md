@@ -14,14 +14,14 @@ allowed-tools:
 ---
 
 <objective>
-Execute one subtask from `docs/doc-subtasks.md`. Extract design constraints from docs and diagrams, write failing tests, implement until tests pass, record any deviations, then invoke `cadence:subtask-review` as a subagent. On ACCEPTED, update the subtask status in `docs/doc-subtasks.md`.
+Execute one subtask from the subtask plan in the current conversation. Extract design constraints from docs and diagrams, write failing tests, implement until tests pass, record any deviations, then invoke `cadence:subtask-review` as a subagent. On ACCEPTED, update the subtask status in the conversation.
 </objective>
 
 <process>
 
 ## Step 1: Identify the Subtask
 
-Read `docs/doc-subtasks.md`.
+Read the subtask plan from the current conversation context.
 
 - If `$ARGUMENTS` contains a subtask ID (e.g., `ST-01`), find that subtask.
 - If no ID is given, pick the first subtask with status PENDING whose dependencies are all ACCEPTED.
@@ -34,12 +34,11 @@ If dependencies are not ACCEPTED, stop and tell the user which dependency to exe
 
 ## Step 2: Mark Subtask as IN_PROGRESS
 
-Update `docs/doc-subtasks.md`: change the subtask's status from PENDING to IN_PROGRESS.
+Output an updated status block in the conversation: change the subtask's status from PENDING to IN_PROGRESS.
 
 ## Step 3: Extract Design Constraints
 
 Read all relevant `docs/` files for this subtask's scope:
-- `doc-*.md` — requirements and design decisions
 - `arch-*.md` — module boundaries and dependency rules
 - `flow-*.md` — execution steps, error paths, naming conventions
 
@@ -72,7 +71,7 @@ Run tests after each logical unit of work. Continue until all tests pass.
 
 If the implementation must deviate from the diagrams (e.g., a design decision turns out to be infeasible), do NOT silently modify diagram files.
 
-Instead, create `docs/drafts/draft-deviation-<subtask-id>-<date>.md`:
+Instead, output a deviation record in the conversation:
 
 ```markdown
 # Deviation Record: <subtask-id>
@@ -98,7 +97,7 @@ Output:
 ST-XX implementation complete:
 - Tests: <N> passing, 0 failing
 - Files changed: <list>
-- Deviations: <none | see docs/drafts/draft-deviation-ST-XX-*.md>
+- Deviations: <none | see deviation record above>
 ```
 
 ## Step 8: Run Subtask Review
@@ -115,7 +114,7 @@ If the verdict is NEEDS_WORK:
 
 After ACCEPTED or ACCEPTED_WITH_WARNINGS:
 
-Update `docs/doc-subtasks.md`: change the subtask's status to ACCEPTED.
+Output an updated status block in the conversation: change the subtask's status to ACCEPTED.
 
 Check if all subtasks are now ACCEPTED. If yes, output:
 ```

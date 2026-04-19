@@ -27,11 +27,11 @@ From `$ARGUMENTS`, extract:
 ## Step 2: Read Everything in Parallel
 
 Read simultaneously:
-- `docs/doc-subtasks.md` — find the subtask's acceptance criteria and description
+- Subtask plan from the current conversation context — find the subtask's acceptance criteria and description
 - Clarification summary from the current conversation context — original problem context
-- All relevant `docs/doc-*.md`, `docs/flow-*.md`, `docs/arch-*.md` files
+- Deviation records from the current conversation context for this subtask
+- All relevant `docs/flow-*.md`, `docs/arch-*.md` files
 - All changed files listed in arguments
-- Any `docs/drafts/draft-deviation-<subtask-id>-*.md` files
 
 ## Step 3: Acceptance Criteria Check
 

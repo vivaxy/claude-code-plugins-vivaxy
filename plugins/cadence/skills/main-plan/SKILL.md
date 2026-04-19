@@ -1,6 +1,6 @@
 ---
 name: cadence:main:plan
-description: Decompose the clarified problem into subtasks — analyze existing docs, produce design documents and diagrams, define subtasks with acceptance criteria, get user approval, then write docs/doc-subtasks.md
+description: Decompose the clarified problem into subtasks — analyze existing docs, produce design documents and diagrams, define subtasks with acceptance criteria, get user approval, then output the subtask plan to the conversation
 argument-hint: "<optional: specific aspect to focus on>"
 allowed-tools:
   - Read
@@ -13,7 +13,7 @@ allowed-tools:
 ---
 
 <objective>
-Read the clarified problem from the current conversation context (established by `main:clarify`), analyze the codebase and existing docs, decompose the work into ordered subtasks with acceptance criteria, produce or update design documents and diagrams, get user approval via ExitPlanMode, then write `docs/doc-subtasks.md`.
+Read the clarified problem from the current conversation context (established by `main:clarify`), analyze the codebase and existing docs, decompose the work into ordered subtasks with acceptance criteria, produce or update design documents and diagrams, get user approval via ExitPlanMode, then output the approved subtask plan as a structured block in the conversation.
 </objective>
 
 <process>
@@ -36,7 +36,6 @@ Extract:
 
 Read all files in `docs/` (excluding `drafts/`):
 - `overview.md`
-- All `doc-*.md` files
 - All `flow-*.md` files
 - All `arch-*.md` files
 
@@ -111,8 +110,8 @@ If the user rejects the plan, incorporate their feedback and call ExitPlanMode a
 
 After the user approves (ExitPlanMode returns with approval):
 
-1. Create or update each design document and diagram file in `docs/`
-2. Write `docs/doc-subtasks.md` with the approved subtask list:
+1. Create or update each diagram file in `docs/`
+2. Output the approved subtask plan as a structured block in the conversation:
 
 ```markdown
 # Subtask Plan
@@ -150,7 +149,7 @@ Output:
 ```
 Plan applied:
 - Created/updated: docs/<file>.md
-- Created: docs/doc-subtasks.md (<N> subtasks: ST-01 through ST-0N)
+- Subtask plan output to conversation (<N> subtasks: ST-01 through ST-0N)
 
 Run `cadence:subtask-execute ST-01` to begin.
 ```
@@ -162,5 +161,5 @@ Run `cadence:subtask-execute ST-01` to begin.
 - If a subtask touches architecture or introduces a new module, always produce or update the relevant `arch-*.md` or `flow-*.md` diagram
 - Diagrams must use valid Mermaid syntax; use `<br>` for line breaks in node labels
 - Keep subtasks focused — if a subtask would change more than 5 files, consider splitting it
-- `doc-subtasks.md` is the single source of truth for subtask status; do not track status anywhere else
+- The subtask plan output to conversation is the single source of truth for subtask status; do not track status anywhere else
 </guidelines>

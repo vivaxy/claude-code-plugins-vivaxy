@@ -14,18 +14,12 @@ The `docs/` directory contains the authoritative design documents and diagrams f
 | `flow-*.md` | Business process, request, or data flow diagrams | `flow-request.md`, `flow-auth.md` |
 | `arch-*.md` | Module dependency or component architecture diagrams | `arch-modules.md`, `arch-services.md` |
 | `arch-ddd-*.md` | DDD bounded context maps | `arch-ddd-contexts.md` |
-| `doc-*.md` | Prose design documents (requirements, decisions, specs) | `doc-auth-design.md`, `doc-api-spec.md` |
-| `doc-subtasks.md` | Ordered subtask list with status tracking | `doc-subtasks.md` |
-| `doc-retrospective-*.md` | Post-delivery retrospective and learnings | `doc-retrospective-2026-04-18.md` |
-| `drafts/draft-*.md` | Pending plan proposals awaiting user approval | `drafts/draft-plan-2026-01-23.md` |
 
 ### Completeness Rules
 
-`docs/` is considered **complete** when:
-- `doc-subtasks.md` exists
-- No unapproved draft files exist in `docs/drafts/`
+`docs/` is considered **complete** when at least one `flow-*.md` and one `arch-*.md` exist.
 
-If `docs/` is missing or incomplete, the agent MUST proactively create the missing documents — do NOT ask the user to run any command first.
+If `docs/` is missing or incomplete, the agent MUST proactively create the missing files — do NOT ask the user to run any command first.
 
 ### Diagram File Format
 
@@ -54,65 +48,6 @@ Each diagram file follows this structure:
 Additional context, constraints, or cross-references to other diagrams.
 ```
 
-### Design Document Format
-
-Prose design documents (`doc-*.md`) follow this structure:
-
-```markdown
-# <Document Title>
-
-> **Type**: Design Document
-> **Last Updated**: YYYY-MM-DD
-> **Covers**: Brief one-line description
-
-## Overview
-
-High-level description of the feature/component/decision.
-
-## Requirements
-
-- Requirement 1
-- Requirement 2
-
-## Design
-
-Detailed design description, decisions, and rationale.
-
-## Open Questions
-
-- Question 1 (if any)
-```
-
-### Draft File Format
-
-Draft files in `docs/drafts/` follow this structure:
-
-```markdown
-# Draft Plan: <Requirement Title>
-
-> **Status**: PENDING_REVIEW
-> **Created**: YYYY-MM-DD HH:MM
-> **Affects**: List of files that will be modified
-
-## Requirement Summary
-
-...
-
-## Document Changes
-
-### Modifying: <filename.md>
-
-**Reason**: Why this change is needed
-
-#### Before
-
-... original content (or mermaid block) ...
-
-#### After
-
-... proposed content (or mermaid block) ...
-```
-
 ## Cadence Development Workflow
 
 ```
@@ -124,11 +59,11 @@ cadence:main:clarify
 ```
 
 1. **`cadence:main:clarify`**: Clarify the problem with the user, produce a clarification summary in conversation
-2. **`cadence:main:plan`**: Decompose into subtasks, write design docs and diagrams, write `docs/doc-subtasks.md`
+2. **`cadence:main:plan`**: Decompose into subtasks, update diagrams, output subtask plan to conversation
 3. **`cadence:subtask-execute <ST-XX>`**: Execute one subtask (TDD), invoke `subtask-review` subagent, mark ACCEPTED
-4. **`cadence:subtask-review`**: Subagent — verifies acceptance criteria and doc alignment
+4. **`cadence:subtask-review`**: Subagent — verifies acceptance criteria and diagram alignment
 5. **`cadence:main:review`**: End-to-end feature acceptance — all subtasks, test suite, success criteria
-6. **`cadence:main:deliver`**: Retrospective, clean up drafts, deliver final summary
+6. **`cadence:main:deliver`**: Output retrospective to conversation, deliver final summary
 
 ## Analyze Skills
 
@@ -139,7 +74,6 @@ Use `cadence:analyze:model` to build a visual conceptual model of any domain or 
 
 - **Clarify first**: Before any planning or coding, confirm a clarification summary has been established in the current conversation
 - **Auto-initialize**: If `docs/` is missing or incomplete, proactively create the missing files — never block or ask the user to run a setup command
-- **Never modify diagram files directly** during `cadence:subtask-execute` — record deviations in `docs/drafts/`
-- **Always read** the relevant documents and diagram files before starting any implementation task
-- **Draft files are not authoritative** — only approved files in `docs/` (not `drafts/`) serve as the source of truth
-- **Subtask status** is tracked in `doc-subtasks.md` — update it as work progresses
+- **Never modify diagram files directly** during `cadence:subtask-execute` — record deviations in the conversation
+- **Always read** the relevant diagram files before starting any implementation task
+- **Subtask status** is tracked in the conversation — output updated status blocks as work progresses

@@ -1,22 +1,21 @@
 ---
 name: cadence:main:deliver
-description: Retrospective, consolidate learnings, and deliver final results — writes doc-retrospective, cleans up drafts, summarizes what was built
+description: Retrospective, consolidate learnings, and deliver final results — outputs retrospective to conversation, summarizes what was built
 allowed-tools:
   - Read
-  - Write
   - Glob
   - Bash
 ---
 
 <objective>
-Close out a completed feature: write a retrospective document capturing what was built, how the process went, and any learnings. Clean up resolved deviation drafts. Deliver a final summary to the user.
+Close out a completed feature: output a retrospective capturing what was built, how the process went, and any learnings. Deliver a final summary to the user.
 </objective>
 
 <process>
 
 ## Step 1: Verify Feature Is Accepted
 
-Read `docs/doc-subtasks.md`. Confirm all subtasks have status ACCEPTED.
+Read the subtask plan from the current conversation context. Confirm all subtasks have status ACCEPTED.
 
 If not all subtasks are ACCEPTED, stop and output:
 ```
@@ -27,13 +26,13 @@ Feature is not yet accepted. Run `cadence:main:review` first.
 
 Read in parallel:
 - Clarification summary from the current conversation context — original problem and success criteria
-- `docs/doc-subtasks.md` — all subtasks and their status
-- All `docs/drafts/draft-deviation-*.md` files
+- Subtask plan from the current conversation context — all subtasks and their status
+- Deviation records from the current conversation context
 - Git log for the feature (use Bash: `git log --oneline -20`)
 
-## Step 3: Write Retrospective
+## Step 3: Output Retrospective
 
-Write `docs/doc-retrospective-<YYYY-MM-DD>.md`:
+Output the retrospective to the conversation:
 
 ```markdown
 # Retrospective: <feature name>
@@ -72,15 +71,7 @@ Write `docs/doc-retrospective-<YYYY-MM-DD>.md`:
 <Any follow-up tasks, known limitations, or future improvements. If none, write "None.">
 ```
 
-## Step 4: Clean Up Deviation Drafts
-
-Move resolved deviation draft files from `docs/drafts/` to `docs/drafts/resolved/` using Bash:
-```bash
-mkdir -p docs/drafts/resolved
-mv docs/drafts/draft-deviation-*.md docs/drafts/resolved/ 2>/dev/null || true
-```
-
-## Step 5: Deliver Final Summary
+## Step 4: Deliver Final Summary
 
 Output the final delivery summary to the user:
 
@@ -90,7 +81,6 @@ Output the final delivery summary to the user:
 **Built**: <one-line description>
 **Subtasks**: N completed
 **Tests**: all passing
-**Retrospective**: docs/doc-retrospective-<date>.md
 
 ### What Was Built
 <2-3 sentences>

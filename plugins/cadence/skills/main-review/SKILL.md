@@ -20,7 +20,7 @@ Use the clarification summary from the current conversation context. Extract the
 
 ## Step 2: Verify All Subtasks Are Accepted
 
-Read `docs/doc-subtasks.md`. Check that every subtask has status ACCEPTED.
+Read the subtask plan from the current conversation context. Check that every subtask has status ACCEPTED.
 
 If any subtask has status PENDING or IN_PROGRESS or NEEDS_WORK, stop and output:
 ```
@@ -31,7 +31,7 @@ Run `cadence:subtask-execute ST-XX` to continue.
 
 ## Step 3: Check for Unresolved Deviations
 
-Glob for `docs/drafts/draft-deviation-*.md`. If any exist, read them.
+Read deviation records from the current conversation context. If any exist, review them.
 
 Deviations are acceptable if they are documented and the impact is understood. Flag any deviation that:
 - Has not been acknowledged (no resolution note)
