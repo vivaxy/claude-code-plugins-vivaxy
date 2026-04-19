@@ -14,7 +14,7 @@ sequenceDiagram
   participant Plan as plan agent
   participant Impl as general-purpose agent
   participant Review as main-review
-  participant Deliver as main-deliver
+  participant Deliver as deliver
 
   User->>Routing: Describes a feature task
   Routing->>Routing: Is this a feature-dev task?

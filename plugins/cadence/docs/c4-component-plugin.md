@@ -16,7 +16,7 @@ C4Component
     Component(clarify, "clarify agent", "Clarification agent", "Q&A with user, spawns probe subagents for unknowns, outputs clarification summary")
     Component(plan, "plan agent", "Planning agent", "Reads docs/, designs C4 diagrams, writes plan file, gets approval via ExitPlanMode")
     Component(review, "main-review skill", "Review skill", "Runs test suite, checks success criteria, assigns FEATURE_ACCEPTED or FEATURE_BLOCKED")
-    Component(deliver, "main-deliver skill", "Delivery skill", "Outputs retrospective and final summary to conversation")
+    Component(deliver, "deliver", "Delivery skill", "Outputs retrospective and final summary to conversation")
   }
 
   ContainerDb(docs, "docs/", "Markdown + Mermaid", "Authoritative C4 design documents")
