@@ -132,3 +132,4 @@ If the user rejects the plan, incorporate their feedback and call `ExitPlanMode`
 - Success criteria must be specific and verifiable
 - Diagrams must use valid Mermaid syntax; use `<br>` for line breaks in node labels
 - When a Key Decision in this plan drives a structural change to a diagram, copy that decision into the relevant diagram file's `## Key Decisions` section with attribution: `(from plan: <kebab-slug>)`
+- The `## Summary` section must always be the last section in the plan file
