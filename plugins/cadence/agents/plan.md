@@ -55,14 +55,18 @@ Build a mental model of what already exists and what needs to change.
 
 ## Step 3: Design Diagrams
 
-Determine which diagrams need to be created or updated in `docs/`:
+Determine which diagrams need to be created or updated in `docs/` based on C4 level criteria:
 
-- **Flow diagram** (`flow-*.md`): required if the change introduces or modifies a user-facing process, data flow, or request lifecycle
-- **Architecture diagram** (`arch-*.md`): required if the change introduces a new module, service, or significant dependency
+- **`c4-context.md`** (C4Context): update if the change adds/removes external systems or user types
+- **`c4-containers.md`** (C4Container): update if the change adds/removes a deployable unit or major integration
+- **`c4-component-{name}.md`** (C4Component): update/create if the change adds/removes a module or component inside a container
+- **`c4-seq-{flow-name}.md`** (sequenceDiagram): create/update if the change introduces or modifies a user-facing flow
 
 For each required diagram, draft the Mermaid content inline in the plan. These drafts go into the "Docs to Change" table in the plan file — the parent agent will apply them after approval.
 
 If no existing diagram covers the affected area, create a new one. If one exists, note what needs to change.
+
+For every diagram file created or updated, set `Last Updated` to today's date (YYYY-MM-DD) in the file header.
 
 Skip this step only if the change is purely textual (e.g. config value, copy change) with no structural impact.
 
@@ -126,3 +130,4 @@ If the user rejects the plan, incorporate their feedback and call `ExitPlanMode`
 
 - Success criteria must be specific and verifiable
 - Diagrams must use valid Mermaid syntax; use `<br>` for line breaks in node labels
+- When a Key Decision in this plan drives a structural change to a diagram, copy that decision into the relevant diagram file's `## Key Decisions` section with attribution: `(from plan: <kebab-slug>)`
